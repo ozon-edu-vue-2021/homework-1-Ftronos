@@ -23,8 +23,8 @@
         </div>
         <div class="math">
             Step:
-            <button class="button minus">-2</button>
-            <button class="button plus">+2</button>
+            <button class="button minus" v-on:click="decrementStepHandler">-2</button>
+            <button class="button plus" v-on:click="incrementStepHandler">+2</button>
         </div>
     </section>
     <hr>
@@ -33,12 +33,12 @@
         <h2>How much will!</h2>
         <p><span class="counter"></span> + <span class="step"></span></p>
         <p><strong>Result: <span class="sum"></span></strong></p>
-        <div class="math">
+        <div class="math counter">
             Counter:
             <button class="button minus">-1</button>
             <button class="button plus">+1</button>
         </div>
-        <div class="math">
+        <div class="math step">
             Step:
             <button class="button minus">-2</button>
             <button class="button plus">+2</button>
@@ -52,19 +52,32 @@
                 step: 2
             },
             methods: {
-                incrementCounterHandler() {},
-                decrementCounterHandler() {}
-                //...
+                incrementCounterHandler() {
+                    this.counter++;
+                },
+                decrementCounterHandler() {
+                    this.counter--;
+                },
+                incrementStepHandler() {
+                this.step += 2;
+                },
+                decrementStepHandler() {
+                    this.step -= 2;
+                }
             },
             computed: {
-                sum() {}
+                sum() {
+                    return this.counter + this.step;
+                }
             }
         })
     </script>
     <script>
         const counterEl = document.querySelector('.js-app .counter');
-        const buttonElMinus = document.querySelector('.js-app .minus');
-        const buttonElPlus = document.querySelector('.js-app .plus');
+        const buttonCounterElMinus = document.querySelector('.js-app .counter .minus');
+        const buttonCounterElPlus = document.querySelector('.js-app .counter .plus');
+        const buttonStepElMinus = document.querySelector('.js-app .step .minus');
+        const buttonStepElPlus = document.querySelector('.js-app .step .plus');
         const sumEl = document.querySelector('.js-app .sum');
         const stepEl = document.querySelector('.js-app .step');
 
@@ -73,19 +86,31 @@
             step: 2
         };
 
-        const incrementCounterHandler = function () {};
-        const decrementCounterHandler = function () {};
-        //...
-        const getSum = function () {};
+        const incrementCounterHandler = function () {
+            counterEl.innerText = ++data.counter;
+        };
+        const decrementCounterHandler = function () {
+            counterEl.innerText = --data.counter;
+        };
+        const incrementStepHandler = function () {
+            data.step += 2;
+            stepEl.innerText = data.step;
+        };
+        const decrementStepHandler = function () {
+            data.step -= 2;
+            stepEl.innerText = data.step;
+        };
+        const getSum = function () {
+            sumEl.innerText = data.counter + data.step;
+        };
 
         const queue = [getSum];
 
         Object.keys(data).forEach(key => {
-            let value = data[key]; // data.counter, data.counter1, data.counter2
+            let value = data[key];
             Object.defineProperty(data, key, {
                 get: function () {
                     console.log('get');
-                    // queue.push();
                     return value;
                 },
                 set: function (newValue) {
@@ -99,8 +124,10 @@
         counterEl.textContent = data.counter;
         stepEl.textContent = data.step;
         getSum();
-        buttonElMinus.addEventListener('click', decrementCounterHandler);
-        buttonElPlus.addEventListener('click', incrementCounterHandler);
+        buttonCounterElMinus.addEventListener('click', decrementCounterHandler);
+        buttonCounterElPlus.addEventListener('click', incrementCounterHandler);
+        buttonStepElMinus.addEventListener('click', decrementStepHandler);
+        buttonStepElPlus.addEventListener('click', incrementStepHandler);
     </script>
 </body>
 
