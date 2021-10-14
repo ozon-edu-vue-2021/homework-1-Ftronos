@@ -14,8 +14,10 @@
     <section class="app vue-app">
         <h1>VUE</h1>
         <h2>How much will?</h2>
-        <p>{{counter}} + {{step}}</p>
-        <p><strong>Result: {{sum}}</strong></p>
+        <p>{{counter}} , {{step}}</p>
+        <p><strong>Sum result: {{sum}}</strong></p>
+        <p><strong>Difference result: {{difference}}</strong></p>
+        <p><strong>Multiplication result: {{multiplication}}</strong></p>
         <div class="math">
             Counter:
             <button class="button minus" v-on:click="decrementCounterHandler">-1</button>
@@ -31,8 +33,10 @@
     <section class="app js-app">
         <h1>JS</h1>
         <h2>How much will!</h2>
-        <p><span class="counter"></span> + <span class="step"></span></p>
-        <p><strong>Result: <span class="sum"></span></strong></p>
+        <p><span class="counter"></span> , <span class="step"></span></p>
+        <p><strong>Sum result: <span class="sum"></span></strong></p>
+        <p><strong>Difference result: <span class="difference"></span></strong></p>
+        <p><strong>Multiplication result: <span class="multiplication"></span></strong></p>
         <div class="math counter">
             Counter:
             <button class="button minus">-1</button>
@@ -68,6 +72,12 @@
             computed: {
                 sum() {
                     return this.counter + this.step;
+                },
+                difference() {
+                    return this.counter - this.step;
+                },
+                multiplication() {
+                    return this.counter * this.step;
                 }
             }
         })
@@ -79,6 +89,8 @@
         const buttonStepElMinus = document.querySelector('.js-app .step .minus');
         const buttonStepElPlus = document.querySelector('.js-app .step .plus');
         const sumEl = document.querySelector('.js-app .sum');
+        const differenceEl = document.querySelector('.js-app .difference');
+        const multiplicationEl = document.querySelector('.js-app .multiplication');
         const stepEl = document.querySelector('.js-app .step');
 
         const data = {
@@ -103,8 +115,14 @@
         const getSum = function () {
             sumEl.innerText = data.counter + data.step;
         };
+        const getDifference = function () {
+            differenceEl.innerText = data.counter - data.step;
+        };
+        const getMultiplication = function () {
+            multiplicationEl.innerText = data.counter * data.step;
+        };
 
-        const queue = [getSum];
+        const queue = [getSum, getDifference, getMultiplication];
 
         Object.keys(data).forEach(key => {
             let value = data[key];
@@ -124,6 +142,8 @@
         counterEl.textContent = data.counter;
         stepEl.textContent = data.step;
         getSum();
+        getDifference();
+        getMultiplication();
         buttonCounterElMinus.addEventListener('click', decrementCounterHandler);
         buttonCounterElPlus.addEventListener('click', incrementCounterHandler);
         buttonStepElMinus.addEventListener('click', decrementStepHandler);
